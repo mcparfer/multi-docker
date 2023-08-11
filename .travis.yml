@@ -13,3 +13,10 @@ after_success:
   - docker build -t mcparfer/multi-nginx ./nginx
   - docker build -t mcparfer/multi-server ./server
   - docker build -t mcparfer/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password_stdin
+  # Take those images and push them to docker
+  - docker push mcparfer/multi-client
+  - docker push mcparfer/multi-nginx
+  - docker push mcparfer/multi-server
+  - docker push mcparfer/multi-worker
