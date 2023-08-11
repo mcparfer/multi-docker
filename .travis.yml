@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t mcparfer/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true mcparfer/react-test npm run test
+
+after_success:
+  - docker build -t mcparfer/multi-client ./client
+  - docker build -t mcparfer/multi-nginx ./nginx
+  - docker build -t mcparfer/multi-server ./server
+  - docker build -t mcparfer/multi-worker ./worker
